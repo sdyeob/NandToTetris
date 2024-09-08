@@ -1,0 +1,24 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/1/DMux.hdl
+/**
+ * Demultiplexor:
+ * [a, b] = [in, 0] if sel = 0
+ *          [0, in] if sel = 1
+ */
+CHIP DMux {
+    IN in, sel;
+    OUT a, b;
+    PARTS:
+	Not(in=sel, out=nsel);
+	And(a=in, b=nsel, out=a);
+	And(a=in, b=sel, out=b);
+}
+
+DMux를 위한 Boolean Operation은 다음과 같다.
+a = And(Not(sel), in), b = And(sel, in)
+
+boolean operationㅇ을 HDL(Hardware Description Language)로 작성하면, 위와 같은 내용이 된다.
+
+해당 Chip은 Mux보다는 좀 더 이해가 가지만, 결국 출력값인 a, b모두 특정 값을 가지게 되고 이게 선택의 역활을 하는게 신기하다.

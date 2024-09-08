@@ -1,0 +1,25 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/1/Mux.hdl
+/** 
+ * Multiplexor:
+ * if (sel = 0) out = a, else out = b
+ */
+CHIP Mux {
+    IN a, b, sel;
+    OUT out;
+    PARTS:
+	Not(in=sel, out=nsel);
+	And(a=a, b=nsel, out=out1);
+	And(a=b, b=sel, out=out2);
+	Or(a=out1, b=out2, out=out);
+}
+
+Mux를 위한 Boolean Operation은 다음과 같다.
+Or(And(a, Not(sel)), And(b, sel))
+
+위 연산을 HDL(Hardware Description Language)로 작성하면, 위와 같은 내용이 된다.
+
+HDL에는 if문이 없기 때문에, 사실상 Mux가 if문 역할을 한다고 볼 수 있다.
+헷갈렸던건, 결국 a, b의 데이터에 모두 접근하는데 출력값이 하나 나오는게 좀 헷갈렸다. 연산 결과는 납득이 되지만 이게 if문 역할을 하는게 신기하다.

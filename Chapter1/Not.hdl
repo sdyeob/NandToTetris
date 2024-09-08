@@ -1,0 +1,35 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/1/Not.hdl
+/**
+ * Not gate:
+ * if (in) out = 0, else out = 1
+ */
+CHIP Not {
+    IN in;
+    OUT out;
+	//BUILTIN Nand;
+    PARTS:
+	Nand(a=in, b=in, out=out);
+}
+
+위의 내용은 Nand to Tetris에서 HDL(Hardware Description Language)를 이용하기 위한 문법이다.
+
+1. /** ~ */는 해당 CHIP(Gate)가 어떻게 동작할 것 인지 여기서는 입력값에 대한 어떤 출력을 뱉을 것 인지에 대한 정의가 쓰여있다.
+
+2. CHIP Not { ~ BUILTIN Nand; 부분은 해당 CHIP의 Interface를 정의하는 부분이다.
+	1) CHIP뒤에 나오는 Chip의 이름은 반드시 대문자로 시작해야하고, 해당 파일의 이름과 동일해야 한다.
+	2) IN, OUT은 Not Chip의 입출력 핀을 담당한다.
+	3) BUILTIN Nand;는 우리가 구현한 Nand가 아닌, 내부적으로 존재하는 Nand.class 를 이용한다는 의미이다. 사실, Nand는 BUILTIN 키워드로 적어주지 않아도 알아서 내부 구현된 NAND를 이용하지만, 여기서는 일부러 사용법을 보기 위해서 적었다.
+	* BUILTIN Nand;와 같은 구문은, 실제 HDL에서는 사용할 수 없다. 이는 java의 .class를 구현할 때에만 사용이 가능하다고 한다.
+
+3. PARTS: ~ }까지는 구현부를 정의하는 부분이다.
+	1) 여기서 Nand(a=in, b=in, out=out);부분을 주의해서 잘 보자. a, b는 'Nand'의 입출력 핀이다. 이 이름들은 Nand를 구현한 파일에서 정의되어있다. 따라서, 만약 Nand의 입출력 핀을 a, b가 아닌 임의의 문자인 k등으로 변경하면 에러가 발생한다. 이 점을 유의하자.
+	2) a=in, b=in을 살펴보자. 여기서 in은 Not의 입력핀으로 들어온 단일 비트 데이터를 의미한다. 따라서, a와 b에 Not Chip에 들어온 단일 비트 데이터를 입력시킨다.
+	3) out=out을 보면, 특이한 구조로 되어있다. 여기서 '='의 왼편에 존재하는 out은 Nand의 출력핀을 의미하고, 오른편에 존재하는 out은 Not의 출력핀을 의미한다. 따라서, 여기서의 '=' 연산자는 Nand의 출력핀 데이터(out)를 Not의 출력핀으로 복사하는 동작을 의미한다. 따라서, 대입이 왼쪽에서 오른쪽으로 이루어진다.
+
+	* 주의할 점은 C언어와 문법이 좀 다르다. 아니, 일반적인 프로그래밍 언어와도 좀 다르다. 특히, '=' 연산자와 버스라고 불리는 Multi-bit 자료형을 다룰 때 좀 특이하다.
+	* 또한, 'out=out1'에서 out1이 특정 Chip의 출력핀이 아니라면, 책에서 Internal Pin이라고 불리는 내부 핀이 생성된다. 이는, 다른 핀들의 입력값이 될 수 있다.
+	
+	* General Error : 변수의 이름에 '-'을 붙이면, '...',' or ')' are expected'라는 에러가 발생한다.
