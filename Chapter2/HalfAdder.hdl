@@ -1,0 +1,20 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/2/HalfAdder.hdl
+/**
+ * Computes the sum of two bits.
+ */
+CHIP HalfAdder {
+    IN a, b;    // 1-bit inputs
+    OUT sum,    // Right bit of a + b 
+        carry;  // Left bit of a + b
+    PARTS:
+	Xor(a=a, b=b, out=sum);
+	And(a=a, b=b, out=carry);
+}
+
+HalfAdder는 매우 쉽게 구현할 수 있었다.
+결과로는 최대 2비트 길이의 데이터가 나온다고 생각하면, LSB는 Sum bit가 되고 MSB는 Carry Bit가 된다고 볼 수 있다.
+이 때, Sum bit는 입력된 1의 개수가 홀수개라면 1이 되므로, Xor논리를 이용하면 된다.
+Carry bit는 입력된 1의 개수가 2개 이상이면 된다. 따라서 And 논리를 이용하면 된다.
