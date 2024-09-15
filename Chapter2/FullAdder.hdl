@@ -1,0 +1,26 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/2/FullAdder.hdl
+/**
+ * Computes the sum of three bits.
+ */
+CHIP FullAdder {
+    IN a, b, c;  // 1-bit inputs
+    OUT sum,     // Right bit of a + b + c
+        carry;   // Left bit of a + b + c
+    PARTS:
+	Xor(a=a, b=b, out=xor1);
+	Xor(a=c, b=xor1, out=sum);
+
+	And(a=a, b=b, out=and1);
+	And(a=b, b=c, out=and2);
+	And(a=a, b=c, out=and3);
+	Or(a=and1, b=and2, out=or1);
+	Or(a=or1, b=and3, out=carry);
+}
+
+첫번째 시도는 위와 같이 결과가 나오게끔 했다. 하지만, 이걸 만들면서 너무 비효율적인 구현이라고 생각하면서 만들었다.
+Full Adder에서 Sum, Carry 비트는 Half Adder 같은 연산이 적용된다.
+1. Sum bit는 1의 개수가 홀수이면 1로 set된다. 이는 단순히 입력값들을 xor3way에 넣은 것과 같다!
+2. Carry bit는 1의 개수가 2개 이상이면 1로 set된다. 이게 어렵다. 1의 개수가 2개 이상인 걸 논리 게이트로 어떻게 효율적으로 구현할 수 있나.
