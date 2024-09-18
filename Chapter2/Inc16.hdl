@@ -1,0 +1,20 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/2/Inc16.hdl
+/**
+ * 16-bit incrementer:
+ * out = in + 1
+ */
+CHIP Inc16 {
+    IN in[16];
+    OUT out[16];
+    PARTS:
+	Add16(a=in, b[0]=true, b[1..15]=false, out=out);
+}
+
+/*
+	여기서 알아야 할 점은 다음과 같다.
+	1. Pin의 Indexing은 위와 같이 하나를 선택할 때에는 b[i]로, 여러개를 선택하는 경우에는 b[i..j]로 선택할 수 있다.
+	2. 0, 1과 같은 숫자는 여기서 핀으로 인식하지 않는다. 따라서, 'A pin name is expected'라고 오류가 발생한다. 따라서, 0, 1 상수를 이용하고 싶다면 true, false를 이용한다.
+*/	
